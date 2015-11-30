@@ -1,7 +1,7 @@
 # python-svm
 Support vector machine implementation in python
 
-## Example with different kernels
+### Examples with different kernels
 
 #### Linear
 
