@@ -2,21 +2,18 @@ from cvxopt.solvers import qp
 from cvxopt.base import matrix, spdiag
 import numpy, pylab, random, math
 
-kerneltype="rbf"
+kerneltype="linear"
 
 # Define kernels, the kernel is a measure of similarity between points
-def kernel(type,xi,xj,p=4):
+def kernel(type,xi,xj):
 	_SIGMA=2
-	_DIMENSION=2
-	_DELTA=1
+	_DIMENSION=3
 	if(type=="linear"):
 		k=(matrix(xi).trans() * matrix(xj) + 1)
 	if(type=="polynomial"):
-		k=math.pow(linearKernel(xi, xj)[0], _DIMENSION)
+		k=math.pow((matrix(xi).trans() * matrix(xj) + 1)[0], _DIMENSION)
 	if(type=="rbf"):
 		k=math.exp(-1 * math.pow(math.sqrt(math.pow((matrix(xi) - matrix(xj))[0], 2) + math.pow((matrix(xi) - matrix(xj))[1], 2)), 2) / 2 * math.pow(_SIGMA, 2))
-	if(type=="sigmoid"):
-		k=math.tanh((_K * (matrix(xi).trans() * matrix(xj))[0] + _DELTA))
 	return k
 
 # Build covariance matrix
@@ -68,17 +65,17 @@ def indicator(x, y, data, alpha, sv):
 # Generate data
 # classA = 1
 # classB = -1
-classA = [(random.normalvariate(2, 1), 
-	random.normalvariate(-0.5, 1), 
+classA = [(random.normalvariate(-1.5, 1), 
+	random.normalvariate(0.5, 1), 
 	1.0)
 	for i in range(5)] + \
-	[(random.normalvariate(-2, 1),
-	random.normalvariate(0, 1),
+	[(random.normalvariate(1.5, 1),
+	random.normalvariate(0.5, 1),
 	1.0)
 	for i in range(5)]
 
-classB = [(random.normalvariate(1, 0.5),
-	random.normalvariate(0, 0.5),
+classB = [(random.normalvariate(0.0, 0.5),
+	random.normalvariate(-0.5, 0.5),
 	-1.0)
 	for i in range(10)]
 
